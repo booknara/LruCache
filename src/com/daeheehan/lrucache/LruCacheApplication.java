@@ -6,18 +6,16 @@ import android.support.v4.util.LruCache;
 import android.util.Log;
 
 public class LruCacheApplication extends Application {
-	public static final String CNAME = LruCacheApplication.class
-			.getSimpleName();
+	public static final String CNAME = LruCacheApplication.class.getSimpleName();
 
 	// Memory Cache Size
 	public static final int MAX_MEMORY = (int) (Runtime.getRuntime().maxMemory() / 1024);
-	public static final int APP_IMAGE_CACHE_SIZE = MAX_MEMORY / 8;
+	public static final int ICON_IMAGE_CACHE_SIZE = MAX_MEMORY / 8;
 
 	public static Application app = null;
 
 	// Memory Cache for Application Image
-	public static LruCache<String, Bitmap> mApplicationImageMemCache = new LruCache<String, Bitmap>(
-			APP_IMAGE_CACHE_SIZE) {
+	public static LruCache<String, Bitmap> mIconImageMemCache = new LruCache<String, Bitmap>(ICON_IMAGE_CACHE_SIZE) {
 		@Override
 		protected int sizeOf(String key, Bitmap bitmap) {
 			// The cache size will be measured in bytes rather than number of item
@@ -40,7 +38,7 @@ public class LruCacheApplication extends Application {
 
 		if (getApplicationBitmapFromCache(uniqueId) == null) {
 			// Storing Image in the memory
-			mApplicationImageMemCache.put(uniqueId, bitmap);
+			mIconImageMemCache.put(uniqueId, bitmap);
 		}
 
 	}
@@ -51,7 +49,7 @@ public class LruCacheApplication extends Application {
 		}
 
 		// Getting Image from the memory
-		Bitmap b = mApplicationImageMemCache.get(uniqueId);
+		Bitmap b = mIconImageMemCache.get(uniqueId);
 		if (b != null) {
 			return b;
 		}
